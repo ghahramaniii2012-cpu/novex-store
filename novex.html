@@ -1,0 +1,53 @@
+function render(){
+ const q=document.getElementById('search').value.trim().toLowerCase();
+ const area=document.getElementById('products');
+ area.innerHTML='';
+ products.forEach((p,i)=>{
+  if(!p.name.toLowerCase().includes(q))return;
+  area.innerHTML+=
+   <div class="card">
+    <div class="picture">${p.icon}</div>
+    <h3>${p.name}</h3>
+    <div class="price">${money(p.price)}</div>
+    <button class="buy" onclick="add(${i})">افزودن به سبد خرید</button>
+   </div>;
+ });
+}
+
+function add(i){
+ cart.push(products[i]);
+ document.getElementById('count').textContent=cart.length.toLocaleString('fa-IR');
+}
+
+function showCart(){
+ document.getElementById('cart').style.display='flex';
+ updateCart();
+}
+function hideCart(){
+ document.getElementById('cart').style.display='none';
+}
+function updateCart(){
+ const area=document.getElementById('items');
+ area.innerHTML='';
+ let total=0;
+ cart.forEach((p,i)=>{
+  total+=p.price;
+  area.innerHTML+=
+   <div class="cartitem">
+    <span>${p.icon} ${p.name}</span>
+    <span>${money(p.price)}
+    <button onclick="removeItem(${i})" style="background:#542525;color:white;border:0;border-radius:5px;padding:5px">حذف</button>
+    </span>
+   </div>;
+ });
+ document.getElementById('total').textContent='مجموع: '+money(total);
+}
+function removeItem(i){
+ cart.splice(i,1);
+ document.getElementById('count').textContent=cart.length.toLocaleString('fa-IR');
+ updateCart();
+}
+render();
+</script>
+</body>
+</html>
